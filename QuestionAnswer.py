@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import codecs
 from nltk import word_tokenize
 
-
 class QuestionAnswer(object):
     def __init__(self,qid = None, question = 0,correct_answer = 0,answer_list = 0):
         self.qid = qid
