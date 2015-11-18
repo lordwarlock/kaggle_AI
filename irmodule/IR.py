@@ -6,7 +6,7 @@ from whoosh.qparser import QueryParser
 from FileProcess import *
 class IR():
     def __init__(self,filePath,indexPath):
-        schema =Schema(title=TEXT(stored=True),path=ID(stored=True),content=TEXT)
+        schema =Schema(title=TEXT(stored=True),path=ID(stored=True),content=TEXT(stored=True))
         self.ix=create_in(indexPath,schema)
         self.filePath=filePath
     def CreateIndex(self):
