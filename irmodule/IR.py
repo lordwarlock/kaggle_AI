@@ -13,16 +13,16 @@ class IR():
         writer =self.ix.writer()
         data=readWikipedia(self.filePath)
         for item in data:
-            writer.add_document(title=item['title'],path=u"/a",content=item["content"])
+            writer.add_document(title=item['title'].decode("utf-8"),path=u"/a",content=item["content"].decode("utf-8"))
         writer.commit()
         print "index finished"
     
     def Search(self,query):
-        with ix.searcher() as searcher:
-            query= QueryParser("content",ix.schema).parse(query)
+        with self.ix.searcher() as searcher:
+            query= QueryParser("content",self.ix.schema).parse(query)
 	    results=searcher.search(query)
-        print results[0]
-        return results
+            print results[0]
+            return results
 
 
 if __name__=="__main__":
