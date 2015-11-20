@@ -14,7 +14,7 @@ class Vec2DB():
                           key_name = 'word', key_type = 'text',\
                           dimension = 300, vec_type = 'real'):
         create_query = "CREATE TABLE " + table_name + '( ' + key_name + ' '\
-                       + key_type
+                       + key_type + 'primary key'
         for i in range(dimension):
             create_query += ', dim'+str(i)+' '+vec_type
         create_query += ')'
