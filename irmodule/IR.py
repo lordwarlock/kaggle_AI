@@ -47,6 +47,8 @@ class IR():
             query= QueryParser("content",self.ix.schema).parse(query)
 	    results=searcher.search(query)
             print results[0]["title"]
+            #for score, you can use results.score(i) to get the score.
+            print results.score(0)
             #return results
 
 
