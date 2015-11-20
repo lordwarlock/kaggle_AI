@@ -49,7 +49,7 @@ class IR():
             print results[0]["title"]
             #for score, you can use results.score(i) to get the score.
             print results.score(0)
-            #return results
+            return results
 
 
 if __name__=="__main__":
