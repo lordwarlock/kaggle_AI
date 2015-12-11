@@ -6,6 +6,9 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from FileProcess import *
 from whoosh.index import open_dir
+from wikipedia import Wikipedia
+from wiki2plain import Wiki2Plain
+
 class IR():
     def __init__(self,filePath,indexPath,isRead=False):
         schema =Schema(title=TEXT(stored=True),path=ID(stored=True),content=TEXT(stored=True))
@@ -43,16 +46,42 @@ class IR():
         print "index finished"
 
     def Search(self,query):
+        title_list = []
+        content_list = []
+        score_list = []
         with self.ix.searcher() as searcher:
             query= QueryParser("content",self.ix.schema).parse(query)
-	    results=searcher.search(query)
-            print results[0]["title"]
+            results=searcher.search(query)
+            index=0
+            for i in results:
+                print i
+                title_list.append(i["title"])
+                content_list.append(i["content"])
+                score_list.append(results.score(index))
+                index += index
             #for score, you can use results.score(i) to get the score.
-            print results.score(0)
-            return results
+            return title_list, content_list, score_list
 
-
+    
+    def wiki_parser(self, raw):
+        wiki2plain = Wiki2Plain(raw)
+        return wiki2plain.text
+    
+    def wiki_clean(self, text):
+        text = self.wiki_parser(text)
+        list = text.split('\n')
+        list = [i for i in list if '==' not in i]
+        list = [i for i in list if len(i.split(':'))!=2]
+        print ' '.join(list)
+        
 if __name__=="__main__":
     print "start"
-    ir=IR("data","./index/",False)
-    ir.Search(u"autistic symptoms")
+    ir=IR(r"H:\machine learning\AI science\kaggle_AI-master\irmodule\data","./index/",True)
+    search_result = ir.Search('enter your keyword here')
+    title_list = search_result[0]
+    content_list = search_result[1]
+    score_list = search_result[2]
+    for i in title_list:
+        print i
+    
+    ir.wiki_clean(content_list[0])
