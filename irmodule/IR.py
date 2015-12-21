@@ -10,14 +10,12 @@ from wikipedia import Wikipedia
 from wiki2plain import Wiki2Plain
 
 class IR():
-    def __init__(self,filePath,indexPath,isRead=False):
+    def __init__(self,indexPath,isRead=False):
         schema =Schema(title=TEXT(stored=True),path=ID(stored=True),content=TEXT(stored=True))
-        self.filePath=filePath
         if isRead:
             self.ix=open_dir(indexPath)
         else:
             self.ix=create_in(indexPath,schema)
-            self.addIndex(filePath)
 
     def CreateIndex(self,data):
         writer =self.ix.writer()
@@ -33,12 +31,12 @@ class IR():
         for filename in filelist:
             filepath = os.path.join(path, filename)
             if os.path.isdir(filepath):
-                dirlist(filepath, allfile)
+                self.dirlist(filepath, allfile)
             else:
                 allfile.append(filepath)
         return allfile
 
-    def addIndex(self,filePath):
+    def addIndexForWiki(self,filePath):
         allfile=self.dirlist(filePath,[])
         for efile in allfile:
             print efile
@@ -75,13 +73,22 @@ class IR():
         print ' '.join(list)
         
 if __name__=="__main__":
-    print "start"
-    ir=IR(r"H:\machine learning\AI science\kaggle_AI-master\irmodule\data","./index/",True)
-    search_result = ir.Search('enter your keyword here')
+    #add index:
+    isRead=False
+    ir=IR("./index",isRead)    
+    #if wiki data, you can just pass the dir name or file name for  function addIndexForWiki
+    ir.addIndexForWiki('./data/')
+    #if for ck12 data
+    ir.CreateIndex(buildindexCK12())#default path r'./ck_text/*.txt'
+
+   #if wiki
+   # print "start"
+   # ir=IR(r"H:\machine learning\AI science\kaggle_AI-master\irmodule\data","./index/",True)
+    search_result = ir.Search('april')
     title_list = search_result[0]
     content_list = search_result[1]
     score_list = search_result[2]
     for i in title_list:
         print i
-    
-    ir.wiki_clean(content_list[0])
+   # 
+   # ir.wiki_clean(content_list[0])

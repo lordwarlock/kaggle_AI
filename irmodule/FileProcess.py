@@ -26,10 +26,10 @@ def readWikipedia(filePath,namespace="{http://www.mediawiki.org/xml/export-0.10/
     print len(dictRes)
     return dictRes
 
-def buildindexCK12():
+def buildindexCK12(fileName=r'./ck_text/*.txt'):
     dictRes=[]
     deletelist = ['Explore More', 'References', 'Practice']
-    for f in glob.glob(r'H:\machine learning\AI science\ck_text\*.txt'):
+    for f in glob.glob(fileName):
         colname = os.path.basename(os.path.splitext(f)[0])
         print colname
         f1 = open(f,'r')
@@ -78,12 +78,13 @@ def readCK12(filePath):
         titles = tmp[i].find_all(re.compile('h.*'), id=re.compile('calibre_link-.*'), class_=re.compile('calibre.*'))
         titles = [t.getText().replace(r'\n', '').strip().encode('utf-8') for t in titles]
         main_text = tmp[i].getText().encode('utf-8')
-        f = open('H:\machine learning\AI science\ck_text\\'+str(titles[0]).replace('?', '').replace(':', '')+'.txt', 'w')
+        f = open('./ck_text/'+str(titles[0]).replace('?', '').replace(':', '')+'.txt', 'w')
 #        f2 = open('H:\machine learning\AI science\ck_html\\'+str(titles[0]).replace('?', '').replace(':', '')+'.txt', 'w')
         f.write(str(titles)+'\n'+main_text)
 #        f2.write(str(tmp[i]))
         f.close()
 
 if __name__=="__main__":
-    buildindexCK12()
-#    readCK12(r'H:\machine learning\AI science\Concepts - CK-12 Foundationunzip\index.html')
+    readCK12(r'./data/index.html')
+    print "readCK12 finished"
+    buildindexCK12(r'./ck_text/*.txt')
