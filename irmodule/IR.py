@@ -52,7 +52,7 @@ class IR():
             results=searcher.search(query)
             index=0
             for i in results:
-                print i
+                #print i
                 title_list.append(i["title"])
                 content_list.append(i["content"])
                 score_list.append(results.score(index))
@@ -88,7 +88,9 @@ if __name__=="__main__":
     title_list = search_result[0]
     content_list = search_result[1]
     score_list = search_result[2]
-    for i in title_list:
-        print i
+    print len(search_result)
+    print title_list
+    #for i in title_list:
+     #   print i
    # 
    # ir.wiki_clean(content_list[0])

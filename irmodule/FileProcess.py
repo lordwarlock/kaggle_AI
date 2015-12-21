@@ -29,9 +29,9 @@ def readWikipedia(filePath,namespace="{http://www.mediawiki.org/xml/export-0.10/
 def buildindexCK12():
     dictRes=[]
     deletelist = ['Explore More', 'References', 'Practice']
-    for f in glob.glob(r'H:\machine learning\AI science\ck_text\*.txt'):
+    for f in glob.glob(r'./ck_text/*.txt'):
         colname = os.path.basename(os.path.splitext(f)[0])
-        print colname
+        #print colname
         f1 = open(f,'r')
         flag = True
         index = 0
@@ -52,7 +52,7 @@ def buildindexCK12():
                     dic['content'] = content
                     dictRes.append(dic)
                 index+=1
-                print line
+               # print line
                 title = line
                 content = ''
                 dic = {}
